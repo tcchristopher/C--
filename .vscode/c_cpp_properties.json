@@ -3,11 +3,16 @@
         {
             "name": "Mac",
             "includePath": [
-                "${workspaceFolder}/**"
+                "${workspaceFolder}/**",
+                "/opt/homebrew/Cellar/sfml/3.0.2",
+                "/opt/homebrew/Cellar/sfml/3.0.2/include/",
+                "/opt/homebrew/Cellar/sfml/3.0.2/lib"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/clang++",
-            "intelliSenseMode": "macos-clang-x64"
+            "intelliSenseMode": "macos-clang-x64",
+            "cStandard": "c17",
+            "cppStandard": "c++17"
         }
     ],
     "version": 4

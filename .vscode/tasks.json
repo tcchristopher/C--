@@ -10,7 +10,14 @@
                 "-g",
                 "${file}",
                 "-o",
-                "${fileDirname}/${fileBasenameNoExtension}"
+                "${fileDirname}/${fileBasenameNoExtension}",
+                "-I",
+                "/opt/homebrew/Cellar/sfml/3.0.2/include",
+                "-L",
+                "/opt/homebrew/Cellar/sfml/3.0.2/lib",
+                "-lsfml-graphics",
+                "-lsfml-window",
+                "-lsfml-system"
             ],
             "options": {
                 "cwd": "${fileDirname}"

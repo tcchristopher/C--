@@ -44,5 +44,6 @@
         "execution": "cpp",
         "fstream": "cpp",
         "iomanip": "cpp"
-    }
+    },
+    "cmake.sourceDirectory": "/Users/thabisochristopher/Library/Mobile Documents/com~apple~CloudDocs/Programming:Developer/C++/GameC++/SFMLtemplate/cmake-sfml-tutorial"
 }

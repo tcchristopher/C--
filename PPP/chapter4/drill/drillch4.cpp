@@ -47,7 +47,7 @@ int main()
         if (!(std::cin >> input_num)) {
             std::cout << "Failed to read number\n";
             std::cout << "Stream state - fail: " << std::cin.fail() 
-                    << " bad: " << std::cin.bad() 
+                    << " bad: " << std::cin.bad()  
                     << " eof: " << std::cin.eof() << "\n";
             
             // Try to see what character caused the failure

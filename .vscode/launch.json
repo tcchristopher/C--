@@ -1,18 +1,50 @@
+// {
+//     "configurations": [
+//         {
+//             "name": "C/C++: clang++ build and debug active file",
+//             "type": "cppdbg",
+//             "request": "launch",
+//             "program": "${fileDirname}/${fileBasenameNoExtension}",
+//             "args": [],
+//             "stopAtEntry": false,
+//             "cwd": "${fileDirname}",
+//             "environment": [],
+//             "externalConsole": false,
+//             "MIMode": "lldb",
+//             "preLaunchTask": "C/C++: clang++ build active file"
+//         }
+//     ],
+//     "version": "2.0.0"
+// }
+
 {
+    "version": "0.2.0",
     "configurations": [
         {
-            "name": "C/C++: clang++ build and debug active file",
-            "type": "cppdbg",
+            "name": "Debug C++",
+            "type": "lldb",
             "request": "launch",
             "program": "${fileDirname}/${fileBasenameNoExtension}",
             "args": [],
-            "stopAtEntry": false,
             "cwd": "${fileDirname}",
-            "environment": [],
-            "externalConsole": false,
-            "MIMode": "lldb",
-            "preLaunchTask": "C/C++: clang++ build active file"
+            "preLaunchTask": "Build C++"
+        },
+        {
+            "name": "Debug SFML",
+            "type": "lldb",
+            "request": "launch",
+            "program": "${fileDirname}/${fileBasenameNoExtension}",
+            "args": [],
+            "cwd": "${fileDirname}",
+            "preLaunchTask": "Build SFML"
+        },
+        {
+            "name": "Debug Current File (no build)",
+            "type": "lldb",
+            "request": "launch",
+            "program": "${fileDirname}/${fileBasenameNoExtension}",
+            "args": [],
+            "cwd": "${fileDirname}"
         }
-    ],
-    "version": "2.0.0"
+    ]
 }

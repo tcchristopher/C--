@@ -1,14 +1,14 @@
-// A literal rice grain counter
+// A literal rice grain counter for the chessboard problem (it's a power series question)
 #include <iostream>
-#include <cmath>
 
 int main()
 {
-    int current_rice = 0;
-    int sum_of_rice = 0;
-    int chess_square = 1;
+    double current_rice = 1;
+    double sum_of_rice = 0;
 
-    for (int i = 0; i < 64; ++i){
-        current_rice = std::power(i, )
+    for (int i = 1; i <= 64; ++i){
+        sum_of_rice += current_rice;
+        std::cout << "The rice on the current (" << i << ") square is: " << current_rice << " and the total rice is " << sum_of_rice << ".\n";
+        current_rice *= 2;
     }
 }

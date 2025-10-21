@@ -7,7 +7,7 @@
             "label": "Build SFML",
             "command": "/usr/bin/clang++",
             "args": [
-                "-std=c++17",
+                "-std=c++20",
                 "-fcolor-diagnostics",
                 "-fansi-escape-codes",
                 "-g",
@@ -45,7 +45,7 @@
             "label": "Build C++",
             "command": "/usr/bin/clang++",
             "args": [
-                "-std=c++17",
+                "-std=c++20",
                 "-fcolor-diagnostics",
                 "-fansi-escape-codes",
                 "-g",
@@ -85,7 +85,7 @@
             "type": "cppbuild",
             "command": "/usr/bin/clang++",
             "args": [
-                "-std=c++17",
+                "-std=c++20",
                 "-Wall",
                 "-Wextra",
                 "-Wpedantic",

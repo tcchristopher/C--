@@ -16,5 +16,3 @@ try {
     std::cerr << "Exception: something went wrong\n";
     return 2;
 }
-
-

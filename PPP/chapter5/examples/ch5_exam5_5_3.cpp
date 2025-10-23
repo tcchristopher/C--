@@ -6,7 +6,7 @@ int area(int length, int width);
 
 int main ()
 {
-
+    //
 }
 
 // ask user for a yes-or-no answer

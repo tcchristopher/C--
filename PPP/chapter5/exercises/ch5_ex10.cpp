@@ -4,15 +4,16 @@
 #include <cmath>
 #include <climits>
 
-int sum_of_series(int n, std::vector<int> series);
+double sum_of_series(int n, std::vector<double> series);
 
 int main()
 {
     // Initialise the storage vectors
-    int sum = 0;
+    double sum = 0;
     int n = 0;
-    std::vector<int>series;
-    int temp = 0;
+    std::vector<double>series;
+    std::vector<double>diffs;
+    double temp = 0;
 
     // Prompt for input from the user and store it (use infinite while)
     // First N
@@ -27,21 +28,11 @@ int main()
     }
 
     // Then the series into the vector
-    std::cout << "Please enter some integers (press '|' to stop):\n";
+    std::cout << "Please enter some doubles (press '|' to stop):\n";
     while (std::cin >> temp)
     {
         series.push_back(temp);
     }
-
-    // Clear buffer
-    
-
-    // Error message if the numbers aren't ints
-    // if (!temp)
-    //     std::cerr << "You entered a non-integer value. Please try again\n";
-    // else {
-        
-    // }
 
     // Check to see that N <= vector.size()
     if (n > series.size()){
@@ -53,23 +44,26 @@ int main()
     sum = sum_of_series(n, series);
     std::cout << "The sum of the series is: " << sum << '\n';
 
+    // Create a differences vector
+    for (int i = 1; i < n; ++i){
+        diffs.push_back(series[i] - series[i-1]);
+    }
+
+    // Write out the differences
+    std::cout << "The differences vector is:";
+    for (int i = 0; i < (n-1); ++i){
+        std::cout << " " << diffs[i];
+    }
+    std::cout << '\n';
 }
 
-int sum_of_series(int n, std::vector<int> series)
+double sum_of_series(int n, std::vector<double> series)
 {
-    long long series_sum = 0;
+    double series_sum = 0;
 
- 
     // Sum with a for loop and N as the limit
     for (int i=0; i < n; ++i)
         series_sum += series[i];
-    
-    // Check if the result fits in an int (integer overflow)
-    if(series_sum > INT_MAX || series_sum < INT_MIN)
-    {
-        std::cerr << "ERROR: The sum cannot be represented as an integer.\n";
-        return 0;    
-    }
 
     // Output the sum and return the value
     return series_sum;

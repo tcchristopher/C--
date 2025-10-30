@@ -61,6 +61,7 @@ Token Token_stream::get()
         }
     default:
         error("Bad token");
+        return Token('?');                      // Never reached but satisfies compiler
     }
 }
 
@@ -71,7 +72,6 @@ Token_stream ts;                                // provides functionality with g
 double expression();
 double term();
 double primary();
-
 
 
 int main()
@@ -184,5 +184,6 @@ double primary()
         return t.value;                         // return the number's value
     default:
         error("primary expected");
+        return 0;                               // Never reached but satisfies compiler
     }
 }

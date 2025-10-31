@@ -174,6 +174,12 @@ double term()
     }
 }
 
+double factorial()
+{
+    double left = primary 
+    // has to be a for counter to do all of the factorial work.
+}
+
 double primary()
 {
     Token t = ts.get();

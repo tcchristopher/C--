@@ -48,9 +48,9 @@ Token Token_stream::get()
     char ch;
     std::cin >> ch;                             // ntoe that >> skips whitespace (space, newline, tab, etc.)
     switch (ch){
-    case ';':                                   // for "print"
+    case '=':                                   // for "print"
     case 'q':                                   // for "quit"
-    case '(': case ')': case '{': case '}': case '+': case '-': case '*': case '/':
+    case '(': case ')': case '{': case '}': case '+': case '-': case '!': case '*': case '/':
         return Token(ch);                       // let the character represent itself
     case '.':
     case '0': case '1': case '2': case '3': case '4':
@@ -73,20 +73,22 @@ Token_stream ts;                                // provides functionality with g
 // declarations
 double expression();
 double term();
+double factorial();
 double primary();
 
 
 int main()
 try{
-    std::cout << "Welcome to our simple calculator. Please enter expressions using floating-point numbers.\n"
+    std::cout   << "Welcome to our simple calculator. Please enter expressions using floating-point numbers.\n"
                 << "You can use the following operators (+ - * /).\n"
-                << "Enter '=' to immediately print out the answer and 'x' to exit.\n";
+                << "Please use ! for factorial cases with a non-negative integer.\n"
+                << "Enter '=' to immediately print out the answer and 'q' to exit.\n";
     double val = 0;
     while(std::cin) {
         Token t = ts.get();
 
         if (t.kind == 'q') break;               // 'q' for quit
-        if (t.kind == ';')                      // ';' for "print now"
+        if (t.kind == '=')                      // ';' for "print now"
             std::cout << "=" << val << '\n';
         else
             ts.putback(t);
@@ -104,29 +106,6 @@ catch(...){
     return 2;
 }
 
-// Token get_token()                               // read a token from std::cin
-// {
-//     char ch;
-//     std::cin >> ch;                             // note that >> skips whitespace (space, newline, tab, etc)
-
-//     switch (ch){
-//         // TODO case ';':                       // for "print"
-//         // TODO case 'q':                       // for "quit"
-//     case '(': case ')': case '+': case '-': case '*': case '/':
-//         return Token(ch);                       // let each character represent itself
-//     case '.':
-//     case '0': case '1': case '2': case '3': case '4':
-//     case '5': case '6': case '7': case '8': case '9':
-//     {
-//         std::cin.putback(ch);                   // put digit back into the input stream
-//         double val;
-//         std::cin >> val;                        // read a floating-point number
-//         return Token('8', val);                 // let '8' represent "a number"
-//     }
-//     default:
-//         error("Bad token");
-//     }
-// }
 
 double expression()
 {
@@ -151,18 +130,21 @@ double expression()
 
 double term()
 {
-    double left = primary();
+    // double left = primary();
+    double left = factorial();
     Token t = ts.get();                         // get the next Token from the Token stream
     while (true){
         switch (t.kind){
         case '*':
-            left *= primary();
+            // left *= primary();
+            left *= factorial();
             t = ts.get();
             break;
         case '/':
         {
-            double d = primary();
+            double d = factorial();
             if (d == 0) error("divide by zero");
+            // left /= d;
             left /= d;
             t = ts.get();
             break;
@@ -176,9 +158,27 @@ double term()
 
 double factorial()
 {
-    double left = primary 
-    // has to be a for counter to do all of the factorial work.
+    double left = primary();
+    // By this point, left would be the value that we need to factorial, as it would have been called up recursively
+    // Check for the factorial
+    Token t = ts.get();
+    if (t.kind == '!'){
+        // error checking 
+        if (left < 0) error("Factorial of negative number.");
+        if (left != floor(left)) error("Factorial requires integer.");
+        if (left>20) error("Factorial too large (>20). Overflow.");
+
+        //
+        double result = 1;              // accumulator starts at 1
+        for (int i = int(left); i > 0; --i)
+            result *= i;
+        return result;
+    } else {
+        ts.putback(t);
+        return left;
+    }
 }
+
 
 double primary()
 {

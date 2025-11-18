@@ -11,7 +11,7 @@
 
 #include "std_lib_facilities.h"
 
-// Structures and Classes for the program, using Token and Token_stream
+// Structures and Classes for the program, using Token, Token_stream and Symbol_table class
 struct Token {
 	char kind;													// what kind of token
 	double value;												// for numbers to be calculated - a value
@@ -29,6 +29,24 @@ public:
 private:														// moved into private
 	bool full{false};											// is there a Token in buffer?
 	Token buffer{0};											// a token that is kept here for put back through unget()
+};
+
+// variable classes
+struct Variable {
+	string name;
+	double value;
+	bool is_const;											// for adding in user defined constants
+	Variable(string n, double v, bool c = false) :name(n), value(v), is_const(c) { }
+};
+
+class Symbol_table {
+private:
+	vector<Variable> var_table;
+public:
+	double get(string s);										// former get_value()
+	void set(string s, double d);								// former set_value()
+	bool is_declared(string s);									// same name
+	void declare(string n, double v, bool is_const = false);	// new
 };
 
 // The unget() member function puts its argument back into the Token_stream's buffer:
@@ -53,7 +71,19 @@ Token Token_stream::get()
 {
 	if (full) { full = false; return buffer; }					// if there already is a token, remove token from buffer
 	char ch;
-	cin >> ch;
+
+	//cin >> ch; OLD
+	// NEW: Need to handle whitespace seperately to validate the return key ("\n")
+
+	if (!cin.get(ch)) return Token(quit);						// End of File
+
+	// handle whitespace
+	if (isspace(ch)){
+		if (ch == '\n') return Token(print);					// newline
+		if (!cin.get(ch)) return Token(quit);					// End of File
+	}
+
+	// Continue the switch
 	switch (ch) {
 	case '(':
 	case ')':
@@ -118,46 +148,45 @@ void Token_stream::ignore(char c)
 		if (ch == c) return;
 }
 
-// variable classes
-struct Variable {
-	string name;
-	double value;
-	bool is_const;											// for adding in user defined constants
-	Variable(string n, double v, bool c = false) :name(n), value(v), is_const(c) { }
-};
-
-// Vector of variables (for storing names)
-vector<Variable> names;
+// Symbol table of symbols (for storing names)
+Symbol_table symbols;
 
 // return the value of a string variable for vector names
-double get_value(string s)
+double Symbol_table::get(string s)
 {
-	for (int i = 0; i < names.size(); ++i)
-		if (names[i].name == s) return names[i].value;
+	for (int i = 0; i < var_table.size(); ++i)
+		if (var_table[i].name == s) return var_table[i].value;
 	error("get: undefined name ", s);
 	return 0.0;
 }
 
 // set the variable named s to value of d
-void set_value(string s, double d)
+void Symbol_table::set(string s, double d)
 {
-	for (int i = 0; i < names.size(); ++i)
-		if (names[i].name == s) {
-			if (names[i].is_const){
+	for (int i = 0; i < var_table.size(); ++i)
+		if (var_table[i].name == s) {
+			if (var_table[i].is_const){
 				error("can't change constant ", s);
 			}
-			names[i].value = d;
+			var_table[i].value = d;
 			return;
 		}
 	error("set: undefined name ", s);
 }
 
-// Is var already in the names table?
-bool is_declared(string s)
+// Is var already in the table?
+bool Symbol_table::is_declared(string s)
 {
-	for (int i = 0; i < names.size(); ++i)
-		if (names[i].name == s) return true;
+	for (int i = 0; i < var_table.size(); ++i)
+		if (var_table[i].name == s) return true;
 	return false;
+}
+
+// Symbol_table declaration
+void Symbol_table::declare(string n, double v, bool is_const)
+{
+	if(is_declared(n)) error(n, " declared twice");
+	var_table.push_back(Variable(n, v, is_const));
 }
 
 Token_stream ts;											// provides the code with the functionality of get() and unget()
@@ -225,7 +254,7 @@ double primary()
 	case number:
 		return t.value;
 	case name:
-		return get_value(t.name);
+		return symbols.get(t.name);
 	default:
 		error("primary expected");
 		return 0;                               // Never reached but satisfies compiler
@@ -288,13 +317,13 @@ double declaration()
 	if (t.kind != name) error("name expected in declaration");
 	string var_name = t.name;
 
-	if (is_declared(var_name)) error(var_name, " declared twice");
+	if (symbols.is_declared(var_name)) error(var_name, " declared twice");
 
 	Token t2 = ts.get();
 	if (t2.kind != '=') error("= missing in declaration of ", var_name);
 
 	double d = expression();
-	names.push_back(Variable(var_name, d));
+	symbols.declare(var_name, d);											// for regular variables
 	return d;
 }
 
@@ -305,13 +334,13 @@ double const_declaration()
     if (t.kind != name) error("name expected in constant declaration");
     string var_name = t.name;
 
-    if (is_declared(var_name)) error(var_name + " declared twice");
+    if (symbols.is_declared(var_name)) error(var_name + " declared twice");
 
     Token t2 = ts.get();
     if (t2.kind != '=') error("= missing in declaration of " + var_name);
 
     double d = expression();
-    names.push_back(Variable(var_name, d, true));  // ← true = is_const!
+    symbols.declare(var_name, d, true);  									// for constants
     return d;
 }
 
@@ -330,7 +359,7 @@ double statement()
 		if (t2.kind == '='){							// then it is an assignment
 			string var_name = t.name;
 			double d = expression();
-			set_value(var_name, d);						// this will check is_const
+			symbols.set(var_name, d);						// this will check is_const
 			return d;
 		}
 		// not an assignment so put the token back and evaluate as an expression
@@ -369,7 +398,7 @@ int main()
 
 try {
 	// Define predefined names
-	names.push_back(Variable("k", 1000));
+	symbols.declare("k", 1000);
 	calculate();
 	return 0;
 }

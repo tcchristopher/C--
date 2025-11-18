@@ -71,7 +71,7 @@ Token Token_stream::get()
     }
 
     char ch;
-    std::cin >> ch;                             // ntoe that >> skips whitespace (space, newline, tab, etc.)
+    std::cin >> ch;                             // note that >> skips whitespace (space, newline, tab, etc.)
     
     switch (ch){
     case quit:
@@ -102,7 +102,7 @@ Token Token_stream::get()
             string s;
             s += ch;
             while (std::cin.get(ch) && (isalpha(ch) || isdigit(ch))) s+=ch;
-            std::cin.putback(ch);
+            std::cin.putback(ch);                   
             if (s == declkey) return Token{let};    // declaration keyword
             return Token{name,s};
         }
@@ -152,7 +152,6 @@ try{
                 << "Enter ';' to immediately print out the answer and 'q' to exit.\n";
 
     calculate();
-
     keep_window_open();
     return 0;
 }
@@ -310,7 +309,7 @@ double primary()
         if (t.kind != ')') error("')' expected");
         return d;
     }
-    case '{':                                   // handle '{' expression '}
+    case '{':                                   // handle '{' expression '}'
     {
         double d = expression();
         t = ts.get();

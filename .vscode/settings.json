@@ -43,7 +43,8 @@
         "__split_buffer": "cpp",
         "execution": "cpp",
         "fstream": "cpp",
-        "iomanip": "cpp"
+        "iomanip": "cpp",
+        "random": "cpp"
     },
     "cmake.sourceDirectory": "/Users/thabisochristopher/Library/Mobile Documents/com~apple~CloudDocs/Programming:Developer/C++/GameC++/SFMLtemplate/cmake-sfml-tutorial"
 }

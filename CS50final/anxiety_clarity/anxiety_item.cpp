@@ -44,7 +44,7 @@ int AnxietyItem::priority() const {
 }
 
 int AnxietyItem::total_steps() const {
-    return static_cast<int>(m_steps.size());
+    return static_cast<int>(m_steps.size());           // type safety for static_cast to prevent massive value errors in type conversion
 }
 
 int AnxietyItem::completed_steps() const {

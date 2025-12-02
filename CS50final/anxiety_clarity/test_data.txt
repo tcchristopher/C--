@@ -1,0 +1,8 @@
+# Anxiety Clarity Data File v1
+ANXIETY|INCOME|8|10|false|No income
+STEP|0|false|Update CV
+STEP|0|false|Apply to jobs
+ANXIETY|HOUSING|7|9|false|Lease ending
+STEP|1|false|Research areas
+ANXIETY|FAMILY|4|6|true|Dad's birthday
+STEP|2|true|Buy gift

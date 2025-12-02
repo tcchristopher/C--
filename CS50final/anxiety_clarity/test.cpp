@@ -2,6 +2,7 @@
 #include "action_step.h"
 #include "category.h"
 #include "anxiety_item.h"
+#include "anxiety_list.h"
 
 
 int main() {
@@ -96,5 +97,70 @@ int main() {
 
     // Status Update
     std::cout << "\nAnxietyItem class works!\n";
+
+
+    // Testing AnxietyList
+    std::cout << "\n=== Testing AnxietyList ===\n\n";
+
+    AnxietyList list;
+
+    // Add some anxieties
+    AnxietyItem a1("No income", Category::INCOME, 8, 10);
+    a1.add_step("Update CV");
+    a1.add_step("Apply to jobs");
+
+    AnxietyItem a2("Lease ending", Category::HOUSING, 7, 9);
+    a2.add_step("Research areas");
+
+    AnxietyItem a3("Dad's birthday", Category::FAMILY, 4, 6);
+    a3.add_step("Buy gift");
+    a3.complete_step(0);
+    a3.resolve();
+
+    list.add(a1);
+    list.add(a2);
+    list.add(a3);
+
+    std::cout << "Total items: " << list.size() << '\n';
+    std::cout << "Active: " << list.active_count() << '\n';
+    std::cout << "Resolved: " << list.resolved_count() << '\n';
+
+    // Test sorting
+    std::cout << "\n-- Before sorting---\n";
+    for (int i = 0; i < list.size(); i++) {
+        std::cout   << i << ": " << list.get(i).text()
+                    << " (priority: " << list.get(i).priority() << ")\n";
+    }
+
+    list.sort_by_priority();
+
+    std::cout << "\n--- After sorting ---\n";
+    for (int i = 0; i < list.size(); i++) {
+        std::cout   << i << ": " << list.get(i).text()
+                    << " (priority: " << list.get(i).priority() << ")\n";
+    }
+
+    // Test save
+    std::cout << "\n--- Testing save/load ---\n";
+    if (list.save("test_data.txt")) {
+        std::cout << "Saved successfully!\n";
+    }
+
+    // Test load into new list
+    AnxietyList list2;
+    if (list2.load("test_data.txt")) {
+        std::cout << "Loaded successfully!\n";
+        std::cout << "Loaded " << list2.size() << " items\n";
+    }
+
+    // Test list remove
+    std::cout << "\n--- Testing remove ---\n";
+    std::cout << "Items before: " << list.size() << " items\n";
+    list.remove(0);
+    std::cout << "Items after: " << list.size() << " items\n";
+
+    // Status Update
+    std::cout << "\nAnxietyList class works!\n";
+    
     return 0;
 }

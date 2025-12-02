@@ -17,3 +17,7 @@ bool ActionStep::is_complete() const {
 void ActionStep::complete(){
     m_complete = true;
 }
+
+void ActionStep::uncomplete(){
+    m_complete = false;
+}

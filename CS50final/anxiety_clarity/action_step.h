@@ -14,6 +14,7 @@ public:
 
     // Mutators
     void complete();
+    void uncomplete();                      // For error correction
 
 private:
     std::string m_text;

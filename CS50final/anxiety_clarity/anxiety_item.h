@@ -1,3 +1,5 @@
+// AnxietyItem class headers
+
 #ifndef ANXIETY_ITEM_H
 #define ANXIETY_ITEM_H
 

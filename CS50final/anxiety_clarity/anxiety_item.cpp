@@ -1,3 +1,5 @@
+// AnxietyItem implementation
+
 #include "anxiety_item.h"
 
 AnxietyItem::AnxietyItem(std::string text, Category cat, int difficulty, int impact)

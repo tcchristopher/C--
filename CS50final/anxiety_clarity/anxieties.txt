@@ -1,0 +1,4 @@
+# Anxiety Clarity Data File v1
+ANXIETY|WORK|9|7|true|Not finishing CS50x in time
+STEP|0|true|Finish the final project and submit it
+STEP|0|true|Also make a video about it.

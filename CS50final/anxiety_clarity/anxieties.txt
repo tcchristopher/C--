@@ -1,4 +1,14 @@
 # Anxiety Clarity Data File v1
-ANXIETY|WORK|9|7|true|Not finishing CS50x in time
-STEP|0|true|Finish the final project and submit it
-STEP|0|true|Also make a video about it.
+ANXIETY|INCOME|8|10|false|Job search stress - no callbacks yet
+STEP|0|true|Update CV with C++ projects
+STEP|0|false|Apply to 5 positions this week
+STEP|0|false|Reach out to LinkedIn contacts
+ANXIETY|HOUSING|7|9|false|Lease ending in two months
+STEP|1|false|Research new neighbourhoods
+STEP|1|false|Set realistic budget
+ANXIETY|WORK|6|6|false|CS50x final project deadline
+STEP|2|true|Design document complete
+STEP|2|true|Core classes implemented
+STEP|2|false|Record demo video
+ANXIETY|FAMILY|4|6|true|Dad's birthday
+STEP|3|true|Gift ordered and wrapped

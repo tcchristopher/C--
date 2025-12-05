@@ -34,8 +34,8 @@ inline std::string category_to_string(Category cat) {
         case Category::HEALTH:          return "HEALTH";
         case Category::WORK:            return "WORK";
         case Category::HOUSING:         return "HOUSING";
-        case Category::RELATIONSHIPS:   return "OTHER";
-        default:                        return "UNKNOWN";
+        case Category::RELATIONSHIPS:   return "RELATIONSHIPS";
+        default:                        return "OTHER";
     }
 }
 

@@ -12,3 +12,6 @@ STEP|2|true|Core classes implemented
 STEP|2|false|Record demo video
 ANXIETY|FAMILY|4|6|true|Dad's birthday
 STEP|3|true|Gift ordered and wrapped
+ANXIETY|HOUSING|5|8|false|Go to the townhall meeting
+STEP|4|false|Sorting out documentation
+STEP|4|false|Going to the townhall

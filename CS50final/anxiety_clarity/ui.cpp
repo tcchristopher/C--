@@ -151,11 +151,10 @@ void display_main_menu(const AnxietyList& list){
     std::cout   << "║  Resolved (victories): " << std::left << std::setw(13) 
                 << list.resolved_count() << " ║\n";
     std::cout   << "║                                      ║\n";
-    std::cout   << "║  [1] View All Anxieties              ║\n";
+    std::cout   << "║  [1] View & Work on Anxieties        ║\n";
     std::cout   << "║  [2] Add New Anxiety                 ║\n";
-    std::cout   << "║  [3] Work on an Anxiety              ║\n";
-    std::cout   << "║  [4] View Victories                  ║\n";
-    std::cout   << "║  [5] Save & Exit                     ║\n";
+    std::cout   << "║  [3] View Victories                  ║\n";
+    std::cout   << "║  [4] Save & Exit                     ║\n";
     std::cout   << "║                                      ║\n";
     std::cout   << "╚══════════════════════════════════════╝\n";
     std::cout   << '\n';
@@ -175,6 +174,9 @@ void display_all_anxieties(AnxietyList& list) {
         std::cout << "No anxieties yet. That's either great news or\n";
         std::cout << "you haven't add any yet, which is also okay.\n";
         std::cout << "Let's work through them together.\n";
+        std::cout << "\n[Press Enter to go back]\n";
+        get_char_input("");
+        return; 
     } else {
         // Table header
         std::cout << "#  │ PRI │ CATEGORY │ ANXIETY                         │ PROGRESS\n";

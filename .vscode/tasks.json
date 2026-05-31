@@ -1,7 +1,53 @@
 {
+    // ============================================================
+    // Thabiso's C++ workspace build tasks
+    // Workspace root: C++/   (this .vscode governs all subjects below it)
+    // macOS · Apple Silicon · clang++ · Homebrew
+    //
+    // Subjects:  COMP4300 · CS50final · GameC++ (SFML) · PPP (2nd ed) · PPP3rd (3rd ed)
+    //
+    // SFML:  brew install sfml@2   (2.6.2, keg-only at /opt/homebrew/opt/sfml@2)
+    // PPP3:  PPPheaders.h + PPP_support.h  in  C++/PPP3rd/PPP_support/
+    //        (header fallback, since Apple clang has no clean `import std;`)
+    // ============================================================
     "version": "2.0.0",
     "tasks": [
-        // ============= SFML Tasks =============
+        // ===================== PPP3 (Stroustrup, 3rd ed.) =====================
+        // Single-file PPP3 exercises under PPP3rd/. Begin each file with:
+        //     #include "PPPheaders.h"
+        // The -I points at the one shared support folder, so it works from
+        // any depth (PPP3rd/Chapter2/examples/foo.cpp, etc.).
+        {
+            "type": "cppbuild",
+            "label": "Build PPP",
+            "command": "/usr/bin/clang++",
+            "args": [
+                "-std=c++20",
+                "-fcolor-diagnostics",
+                "-fansi-escape-codes",
+                "-g",
+                "-I${workspaceFolder}/PPP3rd/PPP_support",
+                "${file}",
+                "-o",
+                "${fileDirname}/${fileBasenameNoExtension}"
+            ],
+            "options": { "cwd": "${fileDirname}" },
+            "problemMatcher": ["$gcc"],
+            "group": "build",
+            "detail": "PPP3 exercise: adds C++/PPP3rd/PPP_support so PPPheaders.h is found"
+        },
+        {
+            "label": "Run PPP",
+            "type": "shell",
+            "command": "${fileDirname}/${fileBasenameNoExtension}",
+            "dependsOn": "Build PPP",
+            "options": { "cwd": "${fileDirname}" },
+            "problemMatcher": [],
+            "detail": "Build then run the PPP3 exercise"
+        },
+
+        // ===================== SFML: single file =====================
+        // Use for Timber!!! (Chapters 1-5) under GameC++/, which is one main.cpp.
         {
             "type": "cppbuild",
             "label": "Build SFML",
@@ -14,32 +60,70 @@
                 "${file}",
                 "-o",
                 "${fileDirname}/${fileBasenameNoExtension}",
-                "-I/opt/homebrew/include",
-                "-L/opt/homebrew/lib",
+                "-I/opt/homebrew/opt/sfml@2/include",
+                "-L/opt/homebrew/opt/sfml@2/lib",
                 "-lsfml-graphics",
                 "-lsfml-window",
                 "-lsfml-system",
                 "-lsfml-audio",
                 "-lsfml-network",
-                "-Wl,-rpath,/opt/homebrew/lib"
+                "-Wl,-rpath,/opt/homebrew/opt/sfml@2/lib"
             ],
-            "options": {
-                "cwd": "${fileDirname}"
-            },
+            "options": { "cwd": "${fileDirname}" },
             "problemMatcher": ["$gcc"],
             "group": "build",
-            "detail": "Build with SFML libraries"
+            "detail": "SFML 2.6, single source file -> executable named after the file"
         },
         {
             "label": "Run SFML",
             "type": "shell",
             "command": "${fileDirname}/${fileBasenameNoExtension}",
             "dependsOn": "Build SFML",
+            "options": { "cwd": "${fileDirname}" },
             "problemMatcher": [],
-            "detail": "Build and run SFML program"
+            "detail": "Build then run the single-file SFML program (cwd = folder so assets load)"
         },
-        
-        // ============= Regular C++ Tasks =============
+
+        // ===================== SFML: whole project (multi-file) =====================
+        // Use from Pong (Ch 6) onward: compiles every .cpp in the current folder.
+        {
+            "label": "Build SFML Project",
+            "type": "shell",
+            "command": "/usr/bin/clang++",
+            "args": [
+                "-std=c++20",
+                "-fcolor-diagnostics",
+                "-fansi-escape-codes",
+                "-g",
+                "${fileDirname}/*.cpp",
+                "-o",
+                "${fileDirname}/app",
+                "-I/opt/homebrew/opt/sfml@2/include",
+                "-L/opt/homebrew/opt/sfml@2/lib",
+                "-lsfml-graphics",
+                "-lsfml-window",
+                "-lsfml-system",
+                "-lsfml-audio",
+                "-lsfml-network",
+                "-Wl,-rpath,/opt/homebrew/opt/sfml@2/lib"
+            ],
+            "options": { "cwd": "${fileDirname}" },
+            "problemMatcher": ["$gcc"],
+            "group": "build",
+            "detail": "SFML 2.6, ALL .cpp in the folder -> ./app (Pong, Zombie Arena, Run!)"
+        },
+        {
+            "label": "Run SFML Project",
+            "type": "shell",
+            "command": "${fileDirname}/app",
+            "dependsOn": "Build SFML Project",
+            "options": { "cwd": "${fileDirname}" },
+            "problemMatcher": [],
+            "detail": "Build then run the multi-file SFML project (cwd = folder so assets load)"
+        },
+
+        // ===================== Plain C++ (no SFML, no PPP support) =====================
+        // Use for COMP4300 / CS50final / general practice.
         {
             "type": "cppbuild",
             "label": "Build C++",
@@ -53,33 +137,22 @@
                 "-o",
                 "${fileDirname}/${fileBasenameNoExtension}"
             ],
-            "options": {
-                "cwd": "${fileDirname}"
-            },
+            "options": { "cwd": "${fileDirname}" },
             "problemMatcher": ["$gcc"],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
-            "detail": "Build regular C++ (no SFML)"
+            "group": { "kind": "build", "isDefault": true },
+            "detail": "Plain C++ single file (no SFML, no PPP support)"
         },
         {
             "label": "Run C++",
             "type": "shell",
             "command": "${fileDirname}/${fileBasenameNoExtension}",
             "dependsOn": "Build C++",
+            "options": { "cwd": "${fileDirname}" },
             "problemMatcher": [],
-            "detail": "Build and run regular C++ program"
+            "detail": "Build then run the plain C++ program"
         },
-        
-        // ============= Utility Tasks =============
-        {
-            "label": "Run Without Building",
-            "type": "shell",
-            "command": "${fileDirname}/${fileBasenameNoExtension}",
-            "problemMatcher": [],
-            "detail": "Run already compiled program"
-        },
+
+        // ===================== Utility =====================
         {
             "label": "Build C++ (with warnings)",
             "type": "cppbuild",
@@ -96,24 +169,32 @@
                 "-o",
                 "${fileDirname}/${fileBasenameNoExtension}"
             ],
-            "options": {
-                "cwd": "${fileDirname}"
-            },
+            "options": { "cwd": "${fileDirname}" },
             "problemMatcher": ["$gcc"],
             "group": "build",
-            "detail": "Build with all warnings enabled"
+            "detail": "Plain C++ with all warnings (recommended while learning)"
+        },
+        {
+            "label": "Run Without Building",
+            "type": "shell",
+            "command": "${fileDirname}/${fileBasenameNoExtension}",
+            "options": { "cwd": "${fileDirname}" },
+            "problemMatcher": [],
+            "detail": "Run an already-compiled single-file program"
         },
         {
             "label": "Clean",
             "type": "shell",
             "command": "rm",
             "args": [
-                "-f",
+                "-rf",
                 "${fileDirname}/${fileBasenameNoExtension}",
-                "${fileDirname}/${fileBasenameNoExtension}.dSYM"
+                "${fileDirname}/${fileBasenameNoExtension}.dSYM",
+                "${fileDirname}/app",
+                "${fileDirname}/app.dSYM"
             ],
             "problemMatcher": [],
-            "detail": "Remove compiled executable"
+            "detail": "Remove compiled executables and debug symbol bundles"
         }
     ]
 }

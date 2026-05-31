@@ -1,4 +1,6 @@
 {
+    // files.associations: tells VS Code these extension-less standard headers
+    // are C++ (prevents the "this looks like C" mis-highlighting). Kept as-is.
     "files.associations": {
         "__bit_reference": "cpp",
         "__locale": "cpp",
@@ -46,5 +48,9 @@
         "iomanip": "cpp",
         "random": "cpp"
     },
+
+    // cmake.sourceDirectory only matters when you use the CMake Tools extension
+    // (e.g. an SFML project built with CMakeLists.txt). It points at the SFML
+    // template under GameC++. Harmless for clang++ tasks and PPP work.
     "cmake.sourceDirectory": "/Users/thabisochristopher/Library/Mobile Documents/com~apple~CloudDocs/Programming:Developer/C++/GameC++/SFMLtemplate/cmake-sfml-tutorial"
 }
